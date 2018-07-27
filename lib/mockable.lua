@@ -3,7 +3,7 @@
 local m = {}
 
 m.test = function()
-    return 'true'
+    return 'not mocked'
 end
 
 return m
