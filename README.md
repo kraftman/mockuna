@@ -1,2 +1,2 @@
 # mockuna
-Lua mocking framework
+Lua mocking framework based on [sinon](http://sinonjs.org/)
