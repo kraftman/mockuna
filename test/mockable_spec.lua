@@ -1,5 +1,5 @@
 
-local mockable = require 'lib.mockable'
+local mockable = require 'test.mockable'
 
 describe('tests mockable', function()
     it('tests test1', function()
