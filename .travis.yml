@@ -11,7 +11,7 @@ before_install:
  - sudo mv docker-compose /usr/local/bin
 
 script:
-  - ./mockuna test
+  - ./mockuna.sh test
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -t 6801d208-7928-4629-807e-10cffd53ed1c
