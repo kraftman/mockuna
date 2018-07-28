@@ -92,7 +92,7 @@ describe('Tests ordering of mocks', function()
         assert(mock1:calledBefore(mock2) == false)
     end)
 
-    it('tests calledAfter', function() 
+    it('tests calledAfter', function()
         assert(mock1:calledAfter(mock2) == false)
         mockable.test2()
         mockable.test()

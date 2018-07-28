@@ -1,3 +1,3 @@
 # mockuna
-[![Build Status](https://travis-ci.org/kraftman/TenTags.io.svg?branch=dev)](https://travis-ci.org/kraftman/TenTags.io) [![codecov](https://codecov.io/gh/kraftman/TenTags.io/branch/dev/graph/badge.svg)](https://codecov.io/gh/kraftman/TenTags.io)
+[![Build Status](https://travis-ci.org/kraftman/mockuna.svg?branch=master)](https://travis-ci.org/kraftman/mokuna) [![codecov](https://codecov.io/gh/kraftman/mockuna/branch/master/graph/badge.svg)](https://codecov.io/gh/kraftman/mockuna)
 Lua mocking framework based on [sinon](http://sinonjs.org/)
