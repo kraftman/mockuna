@@ -4,5 +4,5 @@ services:
   mockuna:
     volumes:
      - ./:/host
-    image: henriquegemignani/busted
-    entrypoint: busted .
+    build: ./
+    entrypoint: busted -c test/ .
