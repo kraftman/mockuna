@@ -6,7 +6,6 @@ set -o errexit
 case $1 in
 
   test )
-
     docker-compose -f dc-test.yml stop
     docker-compose -f dc-test.yml rm -f
     docker-compose -f dc-test.yml run mockuna
