@@ -2,6 +2,9 @@
 local mockable = require 'lib.mockable'
 
 describe('tests mockable', function()
+    it('tests test1', function()
+        assert(mockable.test() == 'not mocked')
+    end)
     it('tests test2', function()
         assert(mockable.test2() == 'not mocked 2')
     end)
