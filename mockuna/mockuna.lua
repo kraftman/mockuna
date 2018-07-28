@@ -1,7 +1,7 @@
 
 
 local mocker = {}
-local callObj = require 'lib.call'
+local callObj = require 'mockuna.call'
 
 local allCalls = {}
 local allMocks = {}

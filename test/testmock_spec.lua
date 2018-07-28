@@ -1,7 +1,6 @@
 
-
-local mockable = require '../lib/mockable'
-local mockuna = require '../lib/mockuna'
+local mockable = require 'test.mockable'
+local mockuna = require 'mockuna.mockuna'
 
 describe('test', function()
     local newMock

@@ -1,7 +1,7 @@
 
 
-local mockable = require '../lib/mockable'
-local mockuna = require '../lib/mockuna'
+local mockable = require 'test.mockable'
+local mockuna = require 'mockuna.mockuna'
 
 describe('Tests ordering of mocks', function()
     local mock1, mock2, mock3
