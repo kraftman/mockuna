@@ -6,7 +6,7 @@ Lua mocking framework based on [sinon](http://sinonjs.org/)
 ##Usage
 Basic busted example:
 
-```
+```lua
 local mockable = require '../lib/mockable'
 local mockuna = require '../lib/mockuna'
 
