@@ -19,6 +19,26 @@ describe('test', function()
         assert(result == 'mocked')
     end)
 
+    it('it throws when method doesnt exist', function()
+        local mockFunction = function() return 'mocked' end
+        local erroringFunction = function()
+            mockuna:mock(mockable, 'nonExistant', mockFunction) 
+        end
+        local _, err = pcall(erroringFunction)
+
+        assert(err:find('class does not have method: nonExistant'))
+    end)
+    it('it throws when method doesnt exist', function()
+        local mockFunction = function() return 'mocked' end
+        local erroringFunction = function()
+            mockuna:mock(mockable, 'test', mockFunction)
+        end
+
+        local _, err = pcall(erroringFunction)
+
+        assert(err:find('already mocked'))
+    end)
+
     it('it restores a mocked method', function()
         local result = mockable.test()
         assert(result == 'mocked')
@@ -33,10 +53,25 @@ describe('test', function()
         assert(newMock.callCount == 1)
         assert(newMock.calledOnce)
         assert(newMock.calledTwice == false)
+        assert(newMock.calledThrice == false)
         mockable.test()
         assert(newMock.callCount == 2)
         assert(newMock.calledOnce == false)
         assert(newMock.calledTwice)
+        assert(newMock.calledThrice == false)
+        mockable.test()
+        assert(newMock.callCount == 3)
+        assert(newMock.calledOnce == false)
+        assert(newMock.calledTwice == false)
+        assert(newMock.calledThrice == true)
+    end)
+
+    it('handles notcalledCorrectly', function()
+        assert(newMock.notCalled == true)
+        mockable.test()
+        assert(newMock.notCalled == false)
+        mockable.test:reset()
+        assert(newMock.notCalled == true)
     end)
 
     it('resets correctly', function()

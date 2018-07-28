@@ -90,12 +90,8 @@ function mockBase:calledWithExactly(...)
   return self:calledWithExactlyCount(...) > 0
 end
 
-function mockBase:calledOnceWithExactly(...)
-  return self:calledWithExactlyCount(...) > 1
-end
-
 function mockBase:alwaysCalledWithExactly(...)
-  return self:calledWithExactlyCount(...) > self.callCount
+  return self:calledWithExactlyCount(...) == self.callCount
 end
 
 function mockBase:returnedCount(...)
@@ -113,11 +109,11 @@ function mockBase:returned(...)
 end
 
 function mockBase:alwaysReturned(...)
-  return self:returnedCount(...) > self.callCount
+  return self:returnedCount(...) == self.callCount
 end
 
 function mockBase:getCall(index)
-  return self.calls(index)
+  return self.calls[index]
 end
 
 function mockBase:getCalls()
@@ -131,11 +127,8 @@ function mockBase.call(self, ...)
   self:addReturns(newCall.returns)
   table.insert(self.calls, newCall)
   table.insert(allCalls, self)
-  if self.__newFunction then
-    return newCall:call()
-  else
-    return
-  end
+
+  return newCall:call()
 end
 
 function mockBase:reset()

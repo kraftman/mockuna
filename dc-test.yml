@@ -5,4 +5,4 @@ services:
     volumes:
      - ./:/host
     build: ./
-    entrypoint: busted -c test/ .
+    entrypoint: busted -c test/

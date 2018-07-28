@@ -85,6 +85,16 @@ describe('Tests ordering of mocks', function()
         assert(mockable.test:calledWith('test'))
     end)
 
+    it('test neverCalledWith true', function()
+        mockable.test('test')
+        assert(mockable.test:neverCalledWith('tester'))
+    end)
+
+    it('test neverCalledWith false', function()
+        mockable.test('test')
+        assert(mockable.test:neverCalledWith('test') == false)
+    end)
+
     it('test calledWith multiple', function()
         mockable.test('test1', 'test2')
         assert(mockable.test:calledWith('test1', 'test2'))
@@ -98,5 +108,67 @@ describe('Tests ordering of mocks', function()
     it('test calledWithExactly false', function()
         mockable.test('test1', 'test2')
         assert(mockable.test:calledWithExactly('test1') == false)
+    end)
+
+    it('test alwaysCalledWithExactly true', function()
+        mockable.test('test1')
+        mockable.test('test1')
+        assert(mockable.test:alwaysCalledWithExactly('test1') == true)
+    end)
+
+    it('test alwaysCalledWithExactly false', function()
+        mockable.test('test1')
+        mockable.test('test2')
+        assert(mockable.test:alwaysCalledWithExactly('test1') == false)
+    end)
+
+    it('tests getCall', function()
+        mockable.test('test1')
+        mockable.test('test2')
+        local secondCall = mockable.test:getCall(2);
+        assert(secondCall.args[1] == 'test2')
+    end)
+
+    it('tests getCalls', function()
+        mockable.test('test1')
+        mockable.test('test2')
+        local allCalls = mockable.test:getCalls();
+        assert(allCalls[1].args[1] == 'test1')
+        assert(allCalls[2].args[1] == 'test2')
+    end)
+
+    it('tests firstCall', function()
+        mockable.test('test1')
+        local firstCall = mockable.test.firstCall;
+        assert(firstCall.args[1] == 'test1')
+    end)
+
+    it('tests secondCall', function()
+        mockable.test('test1')
+        mockable.test('test2')
+        local secondCall = mockable.test.secondCall;
+        assert(secondCall.args[1] == 'test2')
+    end)
+
+    it('tests thirdCall', function()
+        mockable.test('test1')
+        mockable.test('test2')
+        mockable.test('test3')
+        local thirdCall = mockable.test.thirdCall;
+        assert(thirdCall.args[1] == 'test3')
+    end)
+
+    it('tests lastCall', function()
+        mockable.test('test1')
+        local lastCall = mockable.test.lastCall;
+        assert(lastCall.args[1] == 'test1')
+
+        mockable.test('test2')
+        lastCall = mockable.test.lastCall;
+        assert(lastCall.args[1] == 'test2')
+
+        mockable.test('test3')
+        lastCall = mockable.test.lastCall;
+        assert(lastCall.args[1] == 'test3')
     end)
 end)
