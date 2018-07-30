@@ -54,8 +54,7 @@ function mockBase:addArgs(args)
 end
 
 function mockBase:addReturns(returns)
-
-  table.insert(self.returns, returns)
+  table.insert(self.__returns, returns)
 end
 
 function mockBase:calledWithCount(...)
@@ -120,27 +119,104 @@ function mockBase:getCalls()
   return self.calls
 end
 
+function mockBase:__isStub()
+  return self.__newFunction ~= nil
+end
+
+local function containsArgs(argSet1, argSet2)
+  for k,v in ipairs(argSet1) do
+    if argSet2[k] ~= v then
+      return
+    end
+  end
+  return true
+end
+
+function mockBase:__getArgReturn(...)
+  local args = {...}
+  for _, argReturn in pairs(self.__argReturns) do
+    if containsArgs(argReturn.args, args) then
+      return argReturn.method
+    end
+  end
+  return nil
+end
+
+function mockBase:__handleCall(...)
+  local callReturn = self.__callReturns[self.callCount]
+  local argReturn = self:__getArgReturn(...)
+
+  local stubMethod = callReturn or argReturn or self.__newFunction
+
+  return stubMethod(self.__originalParent, ...)
+end
+
 function mockBase.call(self, ...)
   self.callCount = self.callCount + 1
-  local newCall = callObj:new(self.__originalParent, self.__newFunction, ...)
+  local newCall = callObj:new(self, ...)
   self:addArgs(newCall.args)
-  self:addReturns(newCall.returns)
   table.insert(self.calls, newCall)
   table.insert(allCalls, self)
 
-  return newCall:call()
+  if self:__isStub() then
+    return self:__handleCall(...)
+  else
+    return newCall:call()
+  end
 end
 
 function mockBase:reset()
   self.callCount = 0
   self.args = {}
-  self.returns = {}
+  self.__returns = {}
   self.calls = {}
   self.__allArgs = {}
+  self.__callReturns = {}
+  self.__argReturns = {}
 end
 
 function mockBase:restore()
   self.__originalParent[self.__originalName] = self.__originalFunction
+end
+
+function mockBase:returns(newFunction)
+  self.__newFunction = newFunction
+end
+
+function mockBase:__addCallReturns(index, ...)
+  local returns = {...}
+  self.__callReturns[index] = function()
+    return unpack(returns)
+  end
+end
+
+function mockBase:__addArgReturns(args, ...)
+  local returns = {...}
+  table.insert(self.__argReturns, {args = args, method = function()
+    return unpack(returns)
+  end})
+end
+
+function mockBase:onCall(index)
+  if type(index) ~= 'number' then
+    error('onCall(n) must be an integer')
+  end
+  local parent = self
+  return {
+    returns = function(_, ...)
+      parent:__addCallReturns(index, ...)
+    end
+  }
+end
+
+function mockBase:withArgs(...)
+  local parent = self
+  local args = {...}
+  return {
+    returns = function(_, ...)
+      parent:__addArgReturns(args, ...)
+    end
+  }
 end
 
 local getters = {}
@@ -190,7 +266,6 @@ local createMock = function(parent, originalName, originalFunction, newFunction)
   mock.__originalParent = parent
   mock.__originalFunction = originalFunction
   mock.__originalName = originalName
-  mock.__newFunction = newFunction
   mock.__type = 'mock'
 
   mock.__call = mockBase.call
@@ -202,6 +277,7 @@ local createMock = function(parent, originalName, originalFunction, newFunction)
   end
 
   mock:reset()
+  mock:returns(newFunction)
   table.insert(allMocks, mock)
   return mock
 end
@@ -215,6 +291,19 @@ function mocker:mock(parent, methodName, stubFunction)
     error('already mocked')
   end
   local mock = createMock(parent, methodName, originalFunction, stubFunction)
+  parent[methodName] = mock
+  return mock
+end
+
+function mocker:spy(parent, methodName)
+  local originalFunction = parent[methodName]
+  if not originalFunction then
+    return error('class does not have method: '..methodName)
+  end
+  if type(originalFunction) == 'table' and originalFunction.__type == 'mock' then
+    error('already mocked')
+  end
+  local mock = createMock(parent, methodName, originalFunction)
   parent[methodName] = mock
   return mock
 end

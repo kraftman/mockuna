@@ -7,7 +7,7 @@ m.test = function()
 end
 
 m.test2 = function()
-    return 'not mocked 2'
+    return 'not mocked 2', 'not mocked 2a'
 end
 
 m.test3 = function()
