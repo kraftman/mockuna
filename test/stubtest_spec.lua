@@ -83,6 +83,11 @@ describe('stub responses', function()
     assert(stub.callCount == 1)
   end)
 
+  it('throws if oncall called with non-number', function()
+    local ok, err = pcall(function() return mock1:onCall('test'):returns('returna') end)
+    assert(ok == false)
+  end)
+
   it('falls back to previous method if callcount doesnt match', function()
     mock1:restore()
     mock1 = mockuna:stub(mockable, 'test')

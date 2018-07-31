@@ -156,10 +156,6 @@ function mockBase:getCalls()
   return self.calls
 end
 
-function mockBase:__isStub()
-  return self.__newFunction ~= nil
-end
-
 local function containsArgs(argSet1, argSet2)
   for k,v in ipairs(argSet1) do
     if argSet2[k] ~= v then

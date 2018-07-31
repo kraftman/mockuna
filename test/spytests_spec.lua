@@ -24,6 +24,7 @@ describe('spy tests', function()
     end)
 
     it('tracks exceptions', function()
+      assert(mock2:threw() == false)
       local result, err = pcall(function() return mockable.test4() end)
       local errMessage = 'this is exceptional!'
       assert(err:find(errMessage))
@@ -32,4 +33,12 @@ describe('spy tests', function()
       assert(mock2:threw('not thrown') == false)
     end)
 
+    it('always throws ', function()
+      -- TODO add a negative case for this
+      assert(mock2:threw() == false)
+      local result, err = pcall(function() return mockable.test4() end)
+      result, err = pcall(function() return mockable.test4() end)
+      assert(mock2.callCount == 2)
+      assert(mock2:alwaysThrew('this is exceptional!'))
+    end)
 end)
