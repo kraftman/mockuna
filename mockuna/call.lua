@@ -10,7 +10,7 @@ function call:new(stub, method, ...)
     c.exactArgs = ...
     c.parent = stub.__originalParent
     c.index = stub.callCount
-    c.method = method or stub.__originalFunction
+    c.method = method or stub.__originalFunction or function() end
     return c
 end
 

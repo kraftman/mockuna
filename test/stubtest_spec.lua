@@ -45,4 +45,9 @@ describe('stub responses', function()
         assert(b == 'returnb')
     end)
 
+    it('returns an empty stub', function()
+        local stub = mockuna:stub()
+        assert(stub.callCount == 0)
+    end)
+
 end)
