@@ -63,6 +63,24 @@ function mockBase:calledWithCount(...)
   return count
 end
 
+function mockBase:threwCount(errorMessage)
+  local count = 0
+  for _, call in pairs(self.calls) do
+    if call:threw(errorMessage) then
+      count = count + 1
+    end
+  end
+  return count
+end
+
+function mockBase:threw(errorMessage)
+  return self:threwCount(errorMessage) > 0
+end
+
+function mockBase:threw(errorMessage)
+  return self:threwCount(errorMessage) > self.callCount
+end
+
 function mockBase:calledWith(...)
   return self:calledWithCount(...) > 0
 end

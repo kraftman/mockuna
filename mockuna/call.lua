@@ -35,18 +35,41 @@ function call:calledWithExactly(...)
 end
 
 function call:call()
-    self.results = table.pack(self.method(self.exactArgs))
-    return unpack(self.results)
+  local results = table.pack(pcall(function()
+    return self.method(self.exactArgs)
+  end))
+  local ok, err = unpack(results)
+  if not ok then
+    self.exceptionMessage = err
+    return error(err)
+  end
+  table.remove(results, 1)
+  self.results = results
+  return unpack(results)
 end
 
 function call:returned(...)
-    local returnsToCheck = {...}
-    for k,v in ipairs(returnsToCheck) do
-        if self.results[k] ~= v then
-            return false
-        end
+  local returnsToCheck = {...}
+  for k,v in ipairs(returnsToCheck) do
+    if self.results[k] ~= v then
+      return false
     end
+  end
+  return true
+end
+function call:threw(message)
+  if message then
+    if self.exceptionMessage == message then
+      return true
+    else 
+      return false
+    end
+  end
+
+  if self.exceptionMessage then
     return true
+  end
+  return false
 end
 
 return call
