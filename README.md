@@ -158,3 +158,12 @@ local spy = mockuna:spy(mockable, 'test', fakeFunction)
 
 `stub:onCall(n)`
 Specifies the return function for the nth call.
+
+`stub:resetHistory()`
+- Resets the stubs callCount, args, etc
+
+`stub:resetBehaviour()`
+- Resets the behaviour of the stub set by withArgs or onCall
+
+`stub:reset()`
+- Resets both history and behaviour

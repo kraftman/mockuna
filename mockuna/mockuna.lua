@@ -160,14 +160,22 @@ function mockBase.call(self, ...)
   return newCall:call()
 end
 
-function mockBase:reset()
+function mockBase:resetBehaviour()
+  self.__callReturns = {}
+  self.__argReturns = {}
+end
+
+function mockBase:resetHistory()
   self.callCount = 0
   self.args = {}
   self.__returns = {}
   self.calls = {}
   self.__allArgs = {}
-  self.__callReturns = {}
-  self.__argReturns = {}
+end
+
+function mockBase:reset()
+  self:resetHistory()
+  self:resetBehaviour()
 end
 
 function mockBase:restore()
