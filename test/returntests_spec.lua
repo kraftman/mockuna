@@ -38,4 +38,5 @@ describe('Tests ordering of mocks', function()
         mockable.test2()
         assert(mockable.test2:alwaysReturned('not mocked 2', 'not mocked 2a'))
     end)
+
 end)

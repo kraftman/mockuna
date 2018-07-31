@@ -278,15 +278,17 @@ local createMock = function(parent, originalName, originalFunction, newFunction)
 end
 
 function mocker:stub(parent, methodName, stubFunction)
-  local originalFunction = parent[methodName]
-  if not originalFunction then
+  local originalFunction = parent and parent[methodName]
+  if parent and not originalFunction then
     return error('class does not have method: '..methodName)
   end
   if type(originalFunction) == 'table' and originalFunction.__type == 'mock' then
     error('already mocked')
   end
   local mock = createMock(parent, methodName, originalFunction, stubFunction)
-  parent[methodName] = mock
+  if parent then
+    parent[methodName] = mock
+  end
   return mock
 end
 

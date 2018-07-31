@@ -48,6 +48,8 @@ describe('stub responses', function()
     it('returns an empty stub', function()
         local stub = mockuna:stub()
         assert(stub.callCount == 0)
+        local result = stub()
+        assert(result == nil)
     end)
 
 end)
