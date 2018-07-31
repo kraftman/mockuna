@@ -249,6 +249,18 @@ function mockBase:onCall(index)
   }
 end
 
+function mockBase:onFirstCall()
+  return self:onCall(1)
+end
+
+function mockBase:onSecondCall()
+  return self:onCall(2)
+end
+
+function mockBase:onThirdCall()
+  return self:onCall(3)
+end
+
 function mockBase:withArgs(...)
   local parent = self
   local args = {...}
