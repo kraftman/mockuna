@@ -57,9 +57,20 @@ function call:returned(...)
   end
   return true
 end
+
+function call:returnedExactly(...)
+  local returnsToCheck = {...}
+  for k,v in ipairs(self.results) do
+    if returnsToCheck[k] ~= v then
+      return false
+    end
+  end
+  return true
+end
+
 function call:threw(message)
   if message then
-    if self.exceptionMessage == message then
+    if self.exceptionMessage:find(message) then
       return true
     else 
       return false

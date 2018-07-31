@@ -77,8 +77,8 @@ function mockBase:threw(errorMessage)
   return self:threwCount(errorMessage) > 0
 end
 
-function mockBase:threw(errorMessage)
-  return self:threwCount(errorMessage) > self.callCount
+function mockBase:alwaysThrew(errorMessage)
+  return self:threwCount(errorMessage) == self.callCount
 end
 
 function mockBase:calledWith(...)
@@ -121,12 +121,31 @@ function mockBase:returnedCount(...)
   return count
 end
 
+function mockBase:returnedExactlyCount(...)
+  local count = 0
+  for _, call in pairs(self.calls) do
+    if call:returnedExactly(...) then
+      count = count + 1
+    end
+  end
+
+  return count
+end
+
 function mockBase:returned(...)
   return self:returnedCount(...) > 0
 end
 
 function mockBase:alwaysReturned(...)
   return self:returnedCount(...) == self.callCount
+end
+
+function mockBase:returnedExactly(...)
+  return self:returnedExactlyCount(...) > 0
+end
+
+function mockBase:alwaysReturnedExactly(...)
+  return self:returnedExactlyCount(...) == self.callCount
 end
 
 function mockBase:getCall(index)

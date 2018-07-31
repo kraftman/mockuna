@@ -39,4 +39,26 @@ describe('Tests ordering of mocks', function()
         assert(mockable.test2:alwaysReturned('not mocked 2', 'not mocked 2a'))
     end)
 
+    it('records the exact return value false', function()
+        mockable.test2()
+        assert(mockable.test2:returnedExactly('not mocked 2') == false)
+    end)
+
+    it('records the exact return value true', function()
+        mockable.test()
+        assert(mockable.test:returnedExactly('not mocked'))
+    end)
+
+
+
+    it('always returned exactly false', function()
+        mockable.test2()
+        assert(mockable.test2:alwaysReturnedExactly('not mocked 2') == false)
+    end)
+
+    it('always returned exactly true', function()
+        mockable.test()
+        assert(mockable.test:alwaysReturnedExactly('not mocked'))
+    end)
+
 end)
