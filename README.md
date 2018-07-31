@@ -11,8 +11,6 @@ The sinon API is stuck to where possible, the exceptions are:
 
 <!--ts-->
    * [Usage](#usage)
-   * [Table of contents](#table-of-contents)
-   * [Installation](#installation)
    * [API](#api)
       * [Spies](#spies)
       * [Stubs](#stubs)
