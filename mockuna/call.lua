@@ -4,13 +4,13 @@
 local call = {}
 call.__index = call
 
-function call:new(stub, ...)
+function call:new(stub, method, ...)
     local c = setmetatable({}, call)
     c.args = {...}
     c.exactArgs = ...
     c.parent = stub.__originalParent
     c.index = stub.callCount
-    c.method = stub.__originalFunction
+    c.method = method or stub.__originalFunction
     return c
 end
 

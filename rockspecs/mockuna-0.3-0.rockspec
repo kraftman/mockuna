@@ -1,7 +1,7 @@
 package = "mockuna"
-version = "0.3-0"
+version = "0.4-2"
 source = {
-    url = "git@github.com:kraftman/mockuna.git",
+    url = "git://github.com/kraftman/mockuna",
     tag = 'v0.3'
 }
 description = {
@@ -19,6 +19,6 @@ build = {
     type = 'builtin',
     modules = {
         mockuna = 'mockuna/mockuna.lua',
-        ["mockuna.calll"] = "mockuna/call.lua",
+        ["mockuna.call"] = "mockuna/call.lua",
     }
 }

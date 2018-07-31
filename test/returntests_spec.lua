@@ -24,6 +24,11 @@ describe('Tests ordering of mocks', function()
         assert(mockable.test:returned('not mocked'))
     end)
 
+    it('records the return value false', function()
+        mockable.test()
+        assert(mockable.test:returned('not mockeds') == false)
+    end)
+
     it('records multiple return values', function()
         mockable.test2()
         assert(mockable.test2:returned('not mocked 2', 'not mocked 2a'))

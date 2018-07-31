@@ -53,10 +53,6 @@ function mockBase:addArgs(args)
   table.insert(self.args, args)
 end
 
-function mockBase:addReturns(returns)
-  table.insert(self.__returns, returns)
-end
-
 function mockBase:calledWithCount(...)
   local count = 0
   for _, call in pairs(self.calls) do
@@ -142,27 +138,22 @@ function mockBase:__getArgReturn(...)
   return nil
 end
 
-function mockBase:__handleCall(...)
+function mockBase:__getmethod(...)
   local callReturn = self.__callReturns[self.callCount]
   local argReturn = self:__getArgReturn(...)
 
-  local stubMethod = callReturn or argReturn or self.__newFunction
-
-  return stubMethod(self.__originalParent, ...)
+  return callReturn or argReturn or self.__newFunction
 end
 
 function mockBase.call(self, ...)
   self.callCount = self.callCount + 1
-  local newCall = callObj:new(self, ...)
+  local correctMethod = self:__getmethod(...)
+  local newCall = callObj:new(self, correctMethod, ...)
   self:addArgs(newCall.args)
   table.insert(self.calls, newCall)
   table.insert(allCalls, self)
 
-  if self:__isStub() then
-    return self:__handleCall(...)
-  else
-    return newCall:call()
-  end
+  return newCall:call()
 end
 
 function mockBase:reset()

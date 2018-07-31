@@ -21,7 +21,7 @@ describe('test', function()
     it('it throws when method doesnt exist', function()
         local mockFunction = function() return 'mocked' end
         local erroringFunction = function()
-            mockuna:mock(mockable, 'nonExistant', mockFunction) 
+            mockuna:mock(mockable, 'nonExistant', mockFunction)
         end
         local _, err = pcall(erroringFunction)
 
