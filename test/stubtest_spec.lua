@@ -8,9 +8,9 @@ describe('stub responses', function()
     before_each(function()
         local mockFunction = function() return 'mocked' end
         local mockFunction2 = function() return 'mocked', 'here' end
-        mock1 = mockuna:mock(mockable, 'test', mockFunction)
-        mock2 = mockuna:mock(mockable, 'test2', mockFunction2)
-        mock3 = mockuna:mock(mockable, 'test3', mockFunction)
+        mock1 = mockuna:stub(mockable, 'test', mockFunction)
+        mock2 = mockuna:stub(mockable, 'test2', mockFunction2)
+        mock3 = mockuna:stub(mockable, 'test3', mockFunction)
     end)
 
     after_each(function()

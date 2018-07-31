@@ -6,7 +6,7 @@ describe('test', function()
     local newMock
     before_each(function()
         local mockFunction = function() return 'mocked' end
-        newMock = mockuna:mock(mockable, 'test', mockFunction)
+        newMock = mockuna:stub(mockable, 'test', mockFunction)
     end)
 
     after_each(function()
@@ -21,16 +21,17 @@ describe('test', function()
     it('it throws when method doesnt exist', function()
         local mockFunction = function() return 'mocked' end
         local erroringFunction = function()
-            mockuna:mock(mockable, 'nonExistant', mockFunction)
+            mockuna:stub(mockable, 'nonExistant', mockFunction)
         end
         local _, err = pcall(erroringFunction)
 
         assert(err:find('class does not have method: nonExistant'))
     end)
+
     it('it throws when method doesnt exist', function()
         local mockFunction = function() return 'mocked' end
         local erroringFunction = function()
-            mockuna:mock(mockable, 'test', mockFunction)
+            mockuna:stub(mockable, 'test', mockFunction)
         end
 
         local _, err = pcall(erroringFunction)

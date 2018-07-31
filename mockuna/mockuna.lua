@@ -85,6 +85,10 @@ function mockBase:calledWithExactly(...)
   return self:calledWithExactlyCount(...) > 0
 end
 
+function mockBase:calledOnceWithExactly(...)
+  return self:calledWithExactlyCount(...) == 1
+end
+
 function mockBase:alwaysCalledWithExactly(...)
   return self:calledWithExactlyCount(...) == self.callCount
 end
@@ -273,7 +277,7 @@ local createMock = function(parent, originalName, originalFunction, newFunction)
   return mock
 end
 
-function mocker:mock(parent, methodName, stubFunction)
+function mocker:stub(parent, methodName, stubFunction)
   local originalFunction = parent[methodName]
   if not originalFunction then
     return error('class does not have method: '..methodName)
@@ -287,16 +291,7 @@ function mocker:mock(parent, methodName, stubFunction)
 end
 
 function mocker:spy(parent, methodName)
-  local originalFunction = parent[methodName]
-  if not originalFunction then
-    return error('class does not have method: '..methodName)
-  end
-  if type(originalFunction) == 'table' and originalFunction.__type == 'mock' then
-    error('already mocked')
-  end
-  local mock = createMock(parent, methodName, originalFunction)
-  parent[methodName] = mock
-  return mock
+  return self:stub(parent, methodName)
 end
 
 function mocker:reset()
