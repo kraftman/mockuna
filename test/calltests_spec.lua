@@ -178,7 +178,7 @@ describe('Tests ordering of mocks', function()
         lastCall = mockable.test.lastCall;
         assert(lastCall.args[1] == 'test2')
 
-        mockable.test('test3')
+        local result = mockable.test('test3')
         lastCall = mockable.test.lastCall;
         assert(lastCall.args[1] == 'test3')
     end)
