@@ -33,6 +33,16 @@ describe('spy tests', function()
       assert(mock2:threw('not thrown') == false)
     end)
 
+    it('returns exceptions', function()
+      assert(mock2:threw() == false)
+      local result, err = pcall(function() return mockable.test4() end)
+      local errMessage = 'this is exceptional!'
+      assert(mock2.exceptions[1]:find(errMessage))
+      assert(mock2.exceptions[2] == nil)
+      result, err = pcall(function() return mockable.test4() end)
+      assert(mock2.exceptions[2]:find(errMessage))
+    end)
+
     it('always throws ', function()
       -- TODO add a negative case for this
       assert(mock2:threw() == false)

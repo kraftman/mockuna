@@ -87,6 +87,9 @@ Spy API
 `spy.args`
 - Arguments recieved by the spy. `spy.args[1][1]` would be the firt argument of the first call of the spy
 
+`spy.exceptions`
+- exceptions per call, or nil if no exception was thrown
+
 ### Call Methods:
 
 `spy:calledBefore(anotherSpy)`

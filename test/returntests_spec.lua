@@ -63,7 +63,6 @@ describe('Tests ordering of mocks', function()
     mockable.test()
     mockable.test()
     local returnValues = mock1.returnValues
-    print(returnValues[1])
     assert(mock1.callCount == 2)
     assert(returnValues[1][1] == 'not mocked')
   end)

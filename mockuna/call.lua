@@ -41,7 +41,6 @@ function call:call()
   local ok, err = unpack(results)
   if not ok then
     self.exceptionMessage = err
-    return error(err)
   end
   table.remove(results, 1)
   self.results = results

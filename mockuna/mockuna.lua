@@ -192,6 +192,12 @@ function mockBase.call(self, ...)
 
   local results = table.pack(newCall:call())
   table.insert(self.returnValues, results)
+  table.insert(self.exceptions, newCall.exceptionMessage or nil)
+
+  if newCall.exceptionMessage then
+    return error(newCall.exceptionMessage)
+  end
+  
   return unpack(results)
 end
 
@@ -206,6 +212,7 @@ function mockBase:resetHistory()
   self.returnValues = {}
   self.calls = {}
   self.__allArgs = {}
+  self.exceptions = {}
 end
 
 function mockBase:reset()
