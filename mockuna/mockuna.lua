@@ -190,7 +190,9 @@ function mockBase.call(self, ...)
   table.insert(self.calls, newCall)
   table.insert(allCalls, self)
 
-  return newCall:call()
+  local results = table.pack(newCall:call())
+  table.insert(self.returnValues, results)
+  return unpack(results)
 end
 
 function mockBase:resetBehaviour()
@@ -201,7 +203,7 @@ end
 function mockBase:resetHistory()
   self.callCount = 0
   self.args = {}
-  self.__returns = {}
+  self.returnValues = {}
   self.calls = {}
   self.__allArgs = {}
 end
@@ -315,7 +317,6 @@ local createMock = function(parent, originalName, originalFunction, newFunction)
   mock.__originalFunction = originalFunction
   mock.__originalName = originalName
   mock.__type = 'mock'
-
   mock.__call = mockBase.call
   mock.__index = function(self, key)
     if getters[key] then

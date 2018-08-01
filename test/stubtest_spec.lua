@@ -96,7 +96,7 @@ describe('stub responses', function()
     assert(result == 'not mocked')
 
     local a, b = mockable.test()
-    print(a,b)
+    assert(a == 'returna')
     assert(a == 'returna')
     assert(b == 'returnb')
 
