@@ -14,7 +14,7 @@ m.test3 = function()
     return 'not mocked 3'
 end
 
-m.test4 = function()
+m.throwsException = function()
     return error('this is exceptional!')
 end
 
